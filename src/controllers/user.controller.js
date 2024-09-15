@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const generateAccessTokenAndRefreshTokens = async(userId)=>{
     try {
@@ -408,9 +409,11 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
                     $size:"$subscribedTo"
                 },
                 isSubscribed:{
-                    if:{$in:[req.user?._id,"$subscribers.subscribed"]},
-                    then:true,
-                    else:false
+                    $cond:{
+                        if:{$in:[req.user?._id,"$subscribers.subscriber"]},
+                        then:true,
+                        else:false
+                    }
                 }
             }
         },
@@ -445,6 +448,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
 })
 
 const getWatchHistory = asyncHandler(async(req,res)=>{
+    console.log(req.user._id);
     const user = await User.aggregate([
         {
             $match:{
@@ -485,6 +489,9 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
             }
         }
     ])
+    if(!user?.length){
+        throw new ApiError(404,"Watch History is not found")
+    }
 
     return res
     .status(200)

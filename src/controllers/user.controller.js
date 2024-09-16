@@ -86,7 +86,10 @@ const registerUser = asyncHandler(async (req,res) => {
 
 })
 
-const loginUser = asyncHandler(async (req,res)=>{
+const loginUser = asyncHandler(async (req,res) => {
+    console.log("Req incoming after bug fix : ");
+    console.log(req.body);
+
     const {email,username,password} = req.body;
     if(!email && !username){
         throw new ApiError(400,"Please provide email or username");

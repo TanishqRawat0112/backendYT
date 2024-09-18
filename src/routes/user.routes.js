@@ -40,7 +40,7 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 router.route("/change-password").post(verifyJWT,upload.none(), changeCurrentPassword );
 router.route("/current-user").get(verifyJWT, getCurrentUser );
-router.route("/update-details").patch(verifyJWT,updateUserDetails );
+router.route("/update-details").patch(verifyJWT,upload.none(),updateUserDetails );
 router.route("/update-details/update-avatar").patch(verifyJWT, upload.single("avatar"), updateAvatar );
 router.route("/update-details/update-cover-image").patch(verifyJWT, upload.single("coverImage"), updateCoverImage );
 

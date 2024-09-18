@@ -265,33 +265,38 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
 
 const updateUserDetails = asyncHandler(async(req,res)=>{
     const {fullname,username} = req.body;
-
+    console.log("update request hitting")
     if(!fullname && !username){
         throw new ApiError(400,"Please provide at least one field to update");
     }
-
-    const user = await User.findById(
-        req.user?._id,
-        {
-            $set:{
-                fullname,
-                username
+    console.log(username);
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            {
+                $set:{
+                    fullname,
+                    username,
+                    // email
+                }
+            },
+            {
+                new:true,
             }
-        },
-        {
-            new:true,
-        }
-    ).select("-password");
-
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200,
-            user,
-            "User details are updated successfully"
+        ).select("-password");
+    
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user,
+                "User details are updated successfully"
+            )
         )
-    )
+    } catch (error) {
+        throw new ApiError(500,"User details are not updated");
+    }
 })
 
 const updateAvatar = asyncHandler(async(req,res)=>{

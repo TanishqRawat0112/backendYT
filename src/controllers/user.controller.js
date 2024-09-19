@@ -322,7 +322,6 @@ const updateAvatar = asyncHandler(async(req,res)=>{
             new:true,
         }
     ).select("-password -refreshToken");
-
     return res
     .status(200)
     .json(
@@ -340,6 +339,7 @@ const updateAvatar = asyncHandler(async(req,res)=>{
 })
 
 const updateCoverImage = asyncHandler(async(req,res)=>{
+    console.log("request hitting");
     const coverImageLocalPath = await req.file?.path;
     if(!coverImageLocalPath){
         throw new ApiError(410,"Cover Image is required");
@@ -351,7 +351,7 @@ const updateCoverImage = asyncHandler(async(req,res)=>{
     }
 
 
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user._id,
         {
             $set:{
@@ -362,7 +362,6 @@ const updateCoverImage = asyncHandler(async(req,res)=>{
             new:true,
         }
     ).select("-password -refreshToken");
-
     return res
     .status(200)
     .json(

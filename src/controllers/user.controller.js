@@ -216,11 +216,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
 })
 
 const changeCurrentPassword = asyncHandler(async(req,res)=>{
-    console.log(req.body);
     const {oldPassword,newPassword,confirmPassword} = req.body;
-    console.log(req.body?.oldPassword);
-    console.log(req.body?.newPassword);
-    console.log(req.body?.confirmPassword);
 
     if(!oldPassword || !newPassword || !confirmPassword){
         throw new ApiError(400,"Please provide all required fields");

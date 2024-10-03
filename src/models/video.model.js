@@ -19,6 +19,37 @@ const videoSchema = new Schema(
             type:String,
             required:true
         },
+        resolution:{
+            type:String,
+            default:"1080p",
+            required:true
+        },
+        // resolutionPaths:{
+        //     "144p":{
+        //         type:String,
+        //         default:null
+        //     },
+        //     "240p":{
+        //         type:String,
+        //         default:null
+        //     },
+        //     "360p":{
+        //         type:String,
+        //         default:null
+        //     },
+        //     "480p":{
+        //         type:String,
+        //         default:null
+        //     },
+        //     "720p":{
+        //         type:String,
+        //         default:null
+        //     },
+        //     "1080p":{
+        //         type:String,
+        //         default:null
+        //     }
+        // },
         duration:{
             type:Number,
             required:true

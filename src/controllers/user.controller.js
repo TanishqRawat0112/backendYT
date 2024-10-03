@@ -373,6 +373,28 @@ const updateCoverImage = asyncHandler(async(req,res)=>{
     )
 })
 
+const getChannelById = asyncHandler(async(req,res)=>{
+    console.log(req.params.id);
+    const {id} = req.params;
+    if(!id){
+        throw new ApiError(400,"Please provide channel id");
+    }
+
+    const channel = await User.findById(id).select("-password -refreshToken");
+
+    if(!channel){
+        throw new ApiError(404,"Channel does not exist");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            channel,
+            "Channel is fetched successfully"
+        )
+    )
+})
+
 const getUserChannelProfile = asyncHandler(async(req,res)=>{
     const {username} = req.params
     if(!username?.trim()){
@@ -516,5 +538,6 @@ export {
     updateAvatar,
     updateCoverImage,
     getUserChannelProfile,
-    getWatchHistory
+    getWatchHistory,
+    getChannelById
     };

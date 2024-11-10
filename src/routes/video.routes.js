@@ -1,7 +1,8 @@
 import {Router} from "express";
 import { 
     publishAVideo,
-    getAllVideos
+    getAllVideos,
+    getVideoById
  } from "../controllers/video.controller.js";
 
  import {upload} from "../middlewares/multer.middleware.js";
@@ -23,6 +24,8 @@ import { get } from "mongoose";
     ]),publishAVideo);
 
  router.route("/all-videos").get(getAllVideos);
+
+ router.route("/watch/:video_id").get(getVideoById);
 
  export default router;
 
